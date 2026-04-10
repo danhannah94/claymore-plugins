@@ -1,0 +1,10 @@
+{
+  "name": "foundry",
+  "version": "0.1.0",
+  "description": "Foundry documentation platform — skills and commands for working with Foundry's MCP toolset.",
+  "author": {
+    "name": "Dan Hannah"
+  },
+  "license": "MIT",
+  "keywords": ["foundry", "documentation", "mcp"]
+}

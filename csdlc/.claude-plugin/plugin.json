@@ -1,0 +1,10 @@
+{
+  "name": "csdlc",
+  "version": "0.1.0",
+  "description": "Claymore Software Development Lifecycle — skills and commands for the CSDLC methodology: refinement, design docs, intern briefing, session rituals.",
+  "author": {
+    "name": "Dan Hannah"
+  },
+  "license": "MIT",
+  "keywords": ["csdlc", "methodology", "process", "agents"]
+}

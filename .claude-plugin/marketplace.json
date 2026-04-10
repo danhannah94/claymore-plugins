@@ -1,0 +1,19 @@
+{
+  "name": "claymore-plugins",
+  "owner": "danhannah94",
+  "description": "Claymore plugins — CSDLC methodology and Foundry documentation tools.",
+  "plugins": [
+    {
+      "name": "csdlc",
+      "description": "Claymore Software Development Lifecycle — skills and commands for the CSDLC methodology.",
+      "version": "0.1.0",
+      "source": "./csdlc"
+    },
+    {
+      "name": "foundry",
+      "description": "Foundry documentation platform — skills and commands for working with Foundry's MCP toolset.",
+      "version": "0.1.0",
+      "source": "./foundry"
+    }
+  ]
+}
