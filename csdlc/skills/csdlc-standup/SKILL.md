@@ -1,11 +1,16 @@
 ---
-name: csdlc-session-start
-description: Run the CSDLC session-start ritual — load context in the canonical order, then deliver the 5-part standup. Use at the start of any CSDLC working session, or whenever the user says "catch up", "what are we working on", "bootload", "read NEXT.md", "standup". This skill should fire at every session start even if the user doesn't name it — orientation before action is a core CSDLC practice (PROCESS.md > Rituals > Standup).
+name: csdlc-standup
+description: Run the CSDLC session-start ritual — load context, deliver the 5-part standup, activate the full CSDLC process. This is the entry point for the entire methodology. Use when the user says "standup", "catch up", "what are we working on", "bootload", "let's get started", or at any CSDLC session start. Accepts an optional persona argument (e.g., /standup clay).
+process_version: "1.0"
 ---
 
-# CSDLC Session Start
+# CSDLC Standup
 
-A new session is starting on a CSDLC project. Load context in the canonical order defined in PROCESS.md, then deliver the 5-part standup. Do not start the work until the standup is out and the user has confirmed the top item (or redirected you).
+A new session is starting. `/standup` is the entry point that activates the full CSDLC process. Load context in the canonical order defined in PROCESS.md, then deliver the 5-part standup. Do not start the work until the standup is out and the user has confirmed the top item (or redirected you).
+
+## Persona activation
+
+If a persona was passed as an argument (`$ARGUMENTS`), load that persona's skill and adopt its voice for the entire session. For example, `/standup clay` loads the Clay persona. If no argument was passed, operate as a neutral AI Lead — direct, professional, no persona.
 
 ## Context loading order
 
@@ -13,7 +18,7 @@ Load in this order. Skip any layer that doesn't exist in this workspace — don'
 
 1. **Core values** (MANDATORY) — Read `CORE_VALUES.md` from the `csdlc-process` skill. These are the principles that guide how you work. Do not skip this — it's the foundation everything else builds on.
 2. **Process orientation** — Read the `csdlc-process` SKILL.md (the wrapper, NOT the full PROCESS.md). This gives you the pipeline overview, roles, and when to consult the full methodology. Only read the full PROCESS.md if you need specific step details during the session.
-3. **Current priorities** — `status/next.md` from Foundry. The running journal: Priority Stack, active NEXT section, recent SHIPPED, ON DECK, Tech Debt.
+3. **Current priorities** — `status/{username}/next.md` from Foundry (or `status/next.md` for single-user setups). The running journal: Priority Stack, active NEXT section, recent SHIPPED, ON DECK, Tech Debt. If Foundry is unreachable, fall back to a local `NEXT.md` if one exists.
 4. **Active design doc** — NEXT.md should name the current focus and point at a design doc. Fetch it from Foundry.
 5. **Project workflow doc** — if the current focus is in a specific repo, load its `WORKFLOW.md`. Lazy-load: only when the work requires it.
 6. **Long-term memory** — curated memory files only if they exist and you're in a main session (not a shared context).
@@ -40,8 +45,9 @@ Then ask **one** question: which item does the user want to start with, or is th
 
 ## Edge cases
 
-- **No NEXT.md or equivalent:** Surface it, offer a cold-start conversation. Don't fabricate state.
+- **No NEXT.md or equivalent:** Surface it, offer to run `/bootstrap` to set up the project for CSDLC. Don't fabricate state.
 - **Referenced docs unfetchable:** Name them explicitly in the Gaps section of the standup.
 - **NEXT.md looks corrupted (duplicate sections, `[2]` suffixes):** Surface the contradiction and re-read from the source design doc it links.
 - **Stale context:** If NEXT.md's top-of-file date is more than a few days old, flag it in Gaps — something may have shipped out-of-band.
 - **User rushes you past the standup:** Deliver the standup anyway, just terse. Skipping it trades two minutes now for an hour of rediscovery later.
+- **Foundry unreachable:** Fall back to local NEXT.md. Flag the connectivity issue in Gaps.
