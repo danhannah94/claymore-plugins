@@ -1,22 +1,24 @@
 ---
-description: Run the CSDLC session-start ritual — load context, deliver the 5-part standup
+description: Start a CSDLC session — load context, deliver standup. Optional persona arg (e.g., /standup clay)
+argument-hint: "[persona name]"
 ---
 
 Run the CSDLC session-start ritual.
 
-Invoke the `csdlc-session-start` skill. Load context in the canonical order
-(human context → process & values → current priorities → active design doc →
-project workflow → long-term memory), then deliver the 5-part standup:
+Invoke the `csdlc-standup` skill. If a persona was specified (`$ARGUMENTS`),
+load that persona and adopt its voice for the session.
+
+Load context in the canonical order (core values → process → NEXT.md from
+Foundry → active design doc → project workflow → memory), then deliver the
+5-part standup:
 
 1. **Context loaded** — which files you read, layers skipped, why
 2. **Recap** — what shipped last session (from the most recent ✅ SHIPPED block)
-3. **On deck** — the top item(s) from the 🎯 Priority Stack and current 🔴 NEXT
-4. **Design doc state** — refined vs open on the active design doc, if any
-5. **Gaps** — anything you couldn't load, anything stale, any contradictions
+3. **On deck** — top items from 🎯 Priority Stack and current 🔴 NEXT
+4. **Design doc state** — refined vs open on the active design doc
+5. **Gaps** — anything you couldn't load, stale content, contradictions
 
-Then ask **one** question: which item should we start with, or is there
-something not in NEXT.md that takes priority?
+Then ask **one** question: which item should we start with?
 
-Do not start the work until the standup is out and the user has confirmed
-the top item (or redirected you). Follow the full skill — don't skip steps
-just because `/standup` is a shortcut.
+Do not start work until the standup is delivered and the user confirms.
+Follow the full `csdlc-standup` skill — don't skip steps.

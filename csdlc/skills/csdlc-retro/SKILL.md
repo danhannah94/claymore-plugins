@@ -1,11 +1,12 @@
 ---
-name: csdlc-session-end
-description: Write the session handoff into NEXT.md at the end of a CSDLC working session. Use when the user says "wrap up", "session end", "update NEXT.md", "close out", "good stopping point", "let's pick this up tomorrow", or when a session is clearly ending. Trigger proactively — a missing handoff costs real time next session.
+name: csdlc-retro
+description: Write the session handoff into NEXT.md at the end of a CSDLC working session. Use when the user says "wrap up", "session end", "retro", "update NEXT.md", "close out", "good stopping point", "let's pick this up tomorrow", or when a session is clearly ending. Trigger proactively — a missing handoff costs real time next session.
+process_version: "1.0"
 ---
 
-# CSDLC Session End
+# CSDLC Retro
 
-Wrap the session by updating `NEXT.md` (in Foundry: `status/next.md`). NEXT.md is a **running journal that accumulates** — it's not a bootloader that gets rewritten from scratch. The most recent session's work lands on top; prior SHIPPED sections stay in place as historical record.
+Wrap the session by updating `NEXT.md` in Foundry (`status/{username}/next.md` or `status/next.md` for single-user setups). If Foundry is unreachable, write to a local `NEXT.md` and flag it for sync next session. NEXT.md is a **running journal that accumulates** — it's not a bootloader that gets rewritten from scratch. The most recent session's work lands on top; prior SHIPPED sections stay in place as historical record.
 
 ## Before you write
 
