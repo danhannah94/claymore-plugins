@@ -28,7 +28,9 @@ retroactive [sub-system/epic]-level design doc by reading the ACTUAL SOURCE CODE
 and documenting what exists.
 
 ## Output
-Write the doc to: [OUTPUT FILE PATH]
+Write the doc to Foundry using MCP tools (create_doc + update_section).
+Target path: [FOUNDRY DOC PATH, e.g. projects/myproject/epics/epic-name]
+Fallback: write to local file at [LOCAL FILE PATH] if Foundry is unreachable.
 
 ## [Sub-system/Epic]: [NAME]
 [1-2 sentence description of what this sub-system/epic does and why it matters.]

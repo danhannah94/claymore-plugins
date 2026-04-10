@@ -1,6 +1,6 @@
 ---
 name: csdlc-present
-description: Package completed work for human review (CSDLC Step 6). Summarize what shipped, link PRs, flag judgment calls. Optimized for async review on iPad. Use when the user says "present", "show me what shipped", "package this", "ready for review", or after /qa passes.
+description: Package completed work for human review (CSDLC Step 6). Summarize what shipped, link PRs, flag judgment calls. Optimized for async review. Use when the user says "present", "show me what shipped", "package this", "ready for review", or after /qa passes.
 process_version: "1.0"
 argument-hint: <story ID, epic name, or "all" for current session>
 ---
@@ -9,7 +9,7 @@ argument-hint: <story ID, epic name, or "all" for current session>
 
 Package this for review: **$ARGUMENTS**
 
-Step 6 is where the human reviews with fresh eyes. This skill packages the work into a format optimized for async review — Dan is often on his iPad, not at the Mac. The presentation needs to be scannable, complete, and honest about what needs human judgment.
+Step 6 is where the human reviews with fresh eyes. This skill packages the work into a format optimized for async review — the user may not be at the same machine where the work was done. The presentation needs to be scannable, complete, and honest about what needs human judgment.
 
 ## Procedure
 
@@ -60,7 +60,7 @@ Step 6 is where the human reviews with fresh eyes. This skill packages the work 
 
 ## What makes a good presentation
 
-- **Scannable on iPad.** Tables, not walls of text. Links, not inline diffs.
+- **Scannable on any device.** Tables, not walls of text. Links, not inline diffs.
 - **Honest about gaps.** If something is hacky or incomplete, say so. The human's fresh eyes catch what the AI Lead's tired eyes miss.
 - **"Needs Your Judgment" is the key section.** This is where the human's value is highest — the things no AI can decide. Don't pad it with things you can decide yourself, but don't skip it either.
 - **PR links are mandatory.** The human needs to click through to the actual code if they want to dig in.

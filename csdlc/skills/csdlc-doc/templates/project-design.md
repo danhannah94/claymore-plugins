@@ -15,9 +15,9 @@ One paragraph. What does this project do, in plain language? If someone reads no
 
 Target users, their pain points, and how this project solves them.
 
-### Business Model
+### Value Proposition
 
-How does this make money (or justify its existence)? Pricing strategy, monetization approach, growth model.
+What value does this project provide? Who benefits and how? If it's a product, what's the monetization approach? If it's internal tooling, what's the cost justification?
 
 ---
 

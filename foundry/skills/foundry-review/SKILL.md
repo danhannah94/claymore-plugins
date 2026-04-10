@@ -15,6 +15,7 @@ When refining or reviewing a document in Foundry, follow these conventions for a
 - **Use threads for back-and-forth.** Reply to annotations using `parent_id` rather than creating new top-level annotations. Keep the conversation attached to the original concern.
 - **Resolve when agreed.** Once both parties agree on the resolution, use `resolve_annotation`. Don't leave resolved items as submitted — it clutters the view.
 - **Don't edit the doc to address feedback — annotate first.** The annotation thread IS the refinement record. Edit the doc only after the feedback is discussed and agreed upon.
+- **Keep annotations concise.** 3-4 sentences max per annotation. If you need more, you're bundling multiple concerns — split into separate annotations. Density of thought, not volume of text.
 
 ## Review workflow
 
