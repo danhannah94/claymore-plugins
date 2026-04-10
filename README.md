@@ -184,7 +184,6 @@ claymore-plugins/
 This is an active project. The methodology evolves with every session.
 
 - **Issues:** Use `/issue` (meta, right?) or file directly on GitHub
-- **Design doc:** Full architecture at `projects/claymore-plugins/design` on [Foundry](https://foundry-claymore.fly.dev)
 
 ---
 
