@@ -2,7 +2,7 @@
 name: csdlc-issue
 description: Create a GitHub issue from the current context — bug reports, feature requests, tech debt items. Use when the user says "file an issue", "open a bug", "track this", "create an issue", or when a problem is discovered during a session that needs tracking.
 process_version: "1.0"
-argument-hint: <issue title or description>
+argument-hint: <issue title or description> [--repo owner/repo]
 ---
 
 # CSDLC Issue — GitHub Issue Creation
@@ -13,10 +13,11 @@ Create a well-structured GitHub issue from the current conversation context. Use
 
 ## Procedure
 
-1. **Determine the target repo.** Check:
+1. **Determine the target repo.** Check in this order:
+   - `--repo` flag in `$ARGUMENTS` (e.g., `--repo danhannah94/foundry`) — always wins
    - Current working directory's git remote
    - Active project from NEXT.md
-   - Ask the user if ambiguous
+   - Ask the user if still ambiguous
 
 2. **Determine the issue type.** From context or ask:
    - **Bug** — something is broken
