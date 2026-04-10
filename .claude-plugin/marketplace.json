@@ -1,6 +1,9 @@
 {
   "name": "claymore-plugins",
-  "owner": "danhannah94",
+  "owner": {
+    "name": "Dan Hannah",
+    "url": "https://github.com/danhannah94"
+  },
   "description": "Claymore plugins — CSDLC methodology and Foundry documentation tools.",
   "plugins": [
     {
