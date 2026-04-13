@@ -17,6 +17,12 @@
       "description": "Foundry documentation platform — skills and commands for working with Foundry's MCP toolset.",
       "version": "0.1.0",
       "source": "./foundry"
+    },
+    {
+      "name": "lean",
+      "description": "Lean collaborative development — session handoff, decision tracking, and Foundry-integrated document refinement.",
+      "version": "0.1.0",
+      "source": "./lean"
     }
   ]
 }

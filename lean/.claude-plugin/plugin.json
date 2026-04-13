@@ -1,0 +1,10 @@
+{
+  "name": "lean",
+  "version": "0.1.0",
+  "description": "Lean collaborative development — session handoff, decision tracking, and Foundry-integrated document refinement via a three-file system (process.md, next.md, decisions.md).",
+  "author": {
+    "name": "Dan Hannah"
+  },
+  "license": "MIT",
+  "keywords": ["lean", "session", "handoff", "decisions", "foundry", "process"]
+}
