@@ -1,5 +1,5 @@
 ---
-name: lean-update
+name: update
 description: "Lock in agreed decisions from Foundry annotation threads. Updates doc sections to reflect agreed changes, resolves completed threads, and graduates settled decisions to decisions.md. Use after /reply when threads have reached consensus, or when the human says to update the doc, lock in decisions, or apply feedback."
 argument-hint: "[doc path]"
 ---

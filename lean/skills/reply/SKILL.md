@@ -1,5 +1,5 @@
 ---
-name: lean-reply
+name: reply
 description: "Reply to unresolved Foundry annotations on a document. Reads all submitted/replied annotations, groups by section, writes thoughtful responses. Does NOT resolve annotations — that's /update's job. Use when the human asks to respond to feedback, address comments, reply to annotations, or catch up on threads."
 argument-hint: "[doc path]"
 ---

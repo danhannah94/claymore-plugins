@@ -2,13 +2,27 @@
 
 This is the operating methodology for human-AI collaboration. Only load-bearing principles — no rituals, no ceremony.
 
-## Three-file system
+## File system
 
 | File | Scope | Who writes it | Purpose |
 |------|-------|---------------|---------|
-| `process.md` | Workspace | Both (iterate together) | Methodology — how we work |
-| `next.md` | Workspace | AI (at session end via `/stop`) | Session handoff — what to pick up next |
-| `decisions.md` | Per-project | AI (during work) | Active decisions not obvious from the code |
+| `process.md` | Workspace (this file) | Both (iterate together) | Methodology — how we work |
+| `next.md` | Workspace **or** per-project | AI (at session end via `/stop`) | Session handoff — what to pick up next |
+| `decisions.md` | Workspace **or** per-project | AI (during work) | Active decisions not obvious from the code |
+| `CLAUDE.md` | Per-project (optional) | Both | Project-specific AI instructions — conventions, commands, MCP setup |
+
+### Workspace vs project scope
+
+- **Workspace-scoped files** live at the workspace root (`<workspace>/next.md`, `<workspace>/decisions.md`). Used for cross-project or meta work.
+- **Project-scoped files** live inside a project directory (`<workspace>/<project>/next.md`, etc.). Used when working on a single project in depth.
+
+`/start` and `/stop` accept an optional project slug to scope the session:
+
+- `/start` (no arg) — workspace scope
+- `/start quoteai` — project scope; reads from `<workspace>/quoteai/`
+- `/stop` / `/stop quoteai` — same scope rules for writes
+
+If a project has its own `CLAUDE.md`, `/start <project>` reads it automatically. This is where project-specific AI instructions live (see `start/templates/claude-template.md` for the starter).
 
 ## Core principles
 
@@ -24,6 +38,8 @@ This is the operating methodology for human-AI collaboration. Only load-bearing 
 
 **Commit messages capture WHY.** A commit message that says what changed is useless — the diff shows that. Write why the change was made, what was considered and rejected, and any non-obvious reasoning. These form a searchable, immutable decision trail.
 
+**Compound, don't duplicate.** Prefer choices where work on one project strengthens others. Before building something new, check whether an existing tool already covers it or will with small extension. But don't force-fit — if architectures clash, keep them separate and look for lighter ways to compound (shared design shape, extractable modules, feedback between roadmaps).
+
 ## Decisions lifecycle
 
 Decisions start in `decisions.md` when they're active and being validated. As they settle:
@@ -32,7 +48,7 @@ Decisions start in `decisions.md` when they're active and being validated. As th
 - **Settled but non-obvious** — graduate to Foundry as annotations on the relevant design doc section. The reasoning matters long-term.
 - **Demonstrated by the code** — prune from `decisions.md`. The code and commit messages are sufficient.
 
-Keep `decisions.md` short — ideally 10-20 active entries. If it's growing unbounded, entries aren't graduating or getting pruned.
+Keep `decisions.md` short — ideally 10-20 active entries per scope. If it's growing unbounded, entries aren't graduating or getting pruned.
 
 ## Quality gates
 
@@ -42,11 +58,11 @@ Keep `decisions.md` short — ideally 10-20 active entries. If it's growing unbo
 
 ## Session lifecycle
 
-**`/start`** — reads `next.md`, loads context, bootstraps the session. Always begin here.
+**`/start [project]`** — reads `next.md` (and `CLAUDE.md` if project-scoped), loads `process.md`, checks `decisions.md`, bootstraps the session. Always begin here.
 
 **During work** — update `decisions.md` as real decisions get made. Use Foundry for refinement on high-level architecture and design rationale. Surface uncertain decisions to the human.
 
-**`/stop`** — writes `next.md` for the next session. Captures what was done, what's unfinished, and what context the next session needs to start informed.
+**`/stop [project]`** — triages decisions (active → `decisions.md`, settled → Foundry annotation, demonstrated → prune) and writes `next.md` for the next session. Captures what was done, what's unfinished, and what context the next session needs to start informed.
 
 ## Foundry — the knowledge layer
 

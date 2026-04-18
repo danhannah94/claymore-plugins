@@ -5,7 +5,7 @@ argument-hint: "[doc path]"
 
 Update document from agreed annotations: **$ARGUMENTS**
 
-Run the `lean-update` skill. Find annotation threads with agreement,
+Run the `update` skill. Find annotation threads with agreement,
 update the doc sections to reflect locked-in decisions, resolve the
 threads, and graduate settled decisions to decisions.md.
 
