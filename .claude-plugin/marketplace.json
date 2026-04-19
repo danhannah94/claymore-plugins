@@ -20,8 +20,8 @@
     },
     {
       "name": "lean",
-      "description": "Lean collaborative development — session handoff, decision tracking, and Foundry-integrated document refinement.",
-      "version": "0.1.0",
+      "description": "Lean collaborative development — session handoff, decision tracking, and Foundry-integrated document refinement. Four-file system with workspace or per-project scope.",
+      "version": "0.2.0",
       "source": "./lean"
     }
   ]

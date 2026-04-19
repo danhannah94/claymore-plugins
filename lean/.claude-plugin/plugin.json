@@ -1,7 +1,7 @@
 {
   "name": "lean",
-  "version": "0.1.0",
-  "description": "Lean collaborative development — session handoff, decision tracking, and Foundry-integrated document refinement via a three-file system (process.md, next.md, decisions.md).",
+  "version": "0.2.0",
+  "description": "Lean collaborative development — session handoff, decision tracking, and Foundry-integrated document refinement. Four-file system (process.md, next.md, decisions.md, CLAUDE.md) with workspace or per-project scope.",
   "author": {
     "name": "Dan Hannah"
   },
