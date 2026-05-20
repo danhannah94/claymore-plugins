@@ -23,6 +23,12 @@
       "description": "Lean collaborative development — session handoff, decision tracking, and Foundry-integrated document refinement. Four-file system with workspace or per-project scope.",
       "version": "0.2.0",
       "source": "./lean"
+    },
+    {
+      "name": "hl",
+      "description": "Hannah Labs methodology (v3) — collaborative development workflow with session lifecycle (start/stop), red-team/blue-team scope refinement, and pipeline-shaped progression from drafts through requirements to implementation. Third iteration after OpenClaw and lean.",
+      "version": "0.2.0",
+      "source": "./hl"
     }
   ]
 }
