@@ -18,7 +18,7 @@ Each stage has a defined output and a clear hand-off to the next. Stages are ski
 | Epic refinement | manual | Epic docs reconciled with requirements contract | No divergence between epics and requirements |
 | Reply | `/hl:reply` (planned; currently `/lean:reply`) | AI replies to human feedback in Foundry annotations | No outstanding feedback |
 | Update | `/hl:update` (planned; currently `/lean:update`) | Agreed decisions locked into doc body; threads resolved | No agreed-upon decisions pending |
-| Ship | — | Code that implements the design | — |
+| Ship | `/hl:ship` | Code that implements the design — batch/wave pipeline (parallel feature agents in worktrees, conditional QA, optional deploy) | Single trivial change (implement it directly) |
 
 **Use the full pipeline for multi-epic initiatives. Skip stages aggressively for one-off work.** A bug fix doesn't need blue-team. A button addition doesn't need red-team. Match the process to the stakes.
 
