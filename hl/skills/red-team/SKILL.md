@@ -42,21 +42,46 @@ In parallel:
 
 Goal: have full context for the red-team pass in one round of tool calls.
 
-## Phase 2: Red-team (silent analysis)
+## Phase 2: Red-team — fresh agents, grounded against reality
 
-For each target doc, identify gaps in these severity buckets:
+**The author is not the red-teamer.** A doc's author red-teaming their own work produces confidently-wrong findings — they share the blind spots that produced the gaps in the first place. (Proven live: an author's "nothing is deployed" HIGH finding was false; a fresh scout agent caught it by checking actual deployed state in one query.) So the strongest red-team is run by **fresh agents that verify the doc's claims against ground truth** — the real repo, live infra, actual deployed state — *not* against the doc's own assertions. Whenever the doc claims a fact ("X is deployed", "Y is missing", "Z commits behind"), a fresh agent checks it against reality before trusting it.
 
-- **High** (architecturally significant / load-bearing): security issues, ambiguous component boundaries, unspecified contracts between modules, decisions that compound across the codebase, gaps that block downstream epics
-- **Medium** (spec tightening): missing format specifications, unspecified dependencies, vague test plans, unclear definitions-of-done, missing rationale for non-obvious choices
-- **Low** (mention-and-move-on): minor naming choices, deferred items worth flagging, obvious-but-uncaptured assumptions
-- **Cross-doc**: contradictions between sibling docs, broken handoffs between epics, scope drift across the plan, missing dependencies between epics
+Two modes, matched to stakes (per the methodology's "match the process to the stakes"):
+
+### (a) Fresh-agent fan-out — recommended for initiative / multi-epic docs (requires ultracode opt-in)
+
+Run a `Workflow` (the fan-out-verify-synthesize primitive) that:
+
+1. **Fans out N diverse lenses** as independent fresh agents — each attacks the doc through one angle and is blind to the others. A good default set:
+   - **coverage** — what's missing for the real goal (rollback, comms, onboarding, abuse limits, "what does done mean")
+   - **feasibility / execution** — can it actually be run? are the named dependencies real? verify deploy mechanics, infra state, tooling against the repo + live infra
+   - **security** — isolation / data-loss / auth surface; is the threat-model coverage exhaustive against the *actual* code
+   - **cost-reality** — do the cost / margin / performance claims hold against measured numbers
+   - **verification-rigor** — does every acceptance criterion have a real, runnable check (see the standing lens below)
+   - Each agent **grounds its findings in concrete evidence** (a `file:line`, a live query result) and marks anything speculative as such. It also flags the inverse: places the doc claims something ground truth *contradicts*.
+2. **Adversarially verifies each finding** — an independent, skeptical agent re-checks it against ground truth, defaulting to **refuted** unless concrete evidence confirms it. This kills plausible-but-wrong findings before they reach the human (in practice this culls a meaningful fraction — e.g. a scary "cross-org data loss" finding that turned out to rest on planted test data).
+3. **Synthesizes** the survivors into the triaged menu: deduped, grouped by severity, each with 2-3 resolution options (decision-per-minute style). Also lists the **refuted** findings briefly, so the human sees what was checked and discarded, not just what survived.
+
+The synthesis IS the Phase-2 output. Carry it into Phase 3 triage.
+
+### (b) Inline analysis — lightweight (small docs, or when ultracode isn't opted-in)
+
+Do the same grounding yourself: read the repo / infra, **verify the doc's factual claims against reality**, then produce the severity-bucketed list. Same discipline, no fan-out — don't trust the doc's framing just because you're doing it solo.
+
+### Severity buckets (both modes)
+
+- **High** (architecturally significant / load-bearing): security issues, ambiguous component boundaries, unspecified contracts, decisions that compound across the codebase, gaps that block downstream epics, **a doc claim that ground truth contradicts**
+- **Medium** (spec tightening): missing format specs, unspecified dependencies, vague test plans, unclear definitions-of-done, missing rationale for non-obvious choices
+- **Low** (mention-and-move-on): minor naming, deferred items worth flagging, obvious-but-uncaptured assumptions
+- **Cross-doc**: contradictions between sibling docs, broken handoffs between epics, scope drift, missing inter-epic dependencies
+- **Verification-mechanism gaps** (standing lens): for every acceptance criterion / claim of "done", is there a **deterministic mechanism that checks it, and who owns it** — 🤖 AI-mechanized or 🧑 human-judgment? **A criterion with no checking mechanism is itself a finding.** If the mechanism doesn't exist, building it is in-scope work, not a nicety (see methodology: *build the feedback loop, not just the feature*).
 
 Output the full list grouped by severity. **Don't ask permission to share — share it directly.** The user wants to see the gaps; they'll triage with you in Phase 3.
 
 When presenting:
 - Number each gap so they're addressable ("gap #3 above")
 - Name the doc each gap is in
-- Be specific about what's missing or wrong, not vague
+- Be specific about what's missing or wrong, not vague — cite the ground-truth evidence
 - Lead with the most load-bearing items in each bucket
 
 ## Phase 3: Triage (interactive)

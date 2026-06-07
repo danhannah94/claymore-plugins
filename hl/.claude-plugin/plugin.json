@@ -1,6 +1,6 @@
 {
   "name": "hl",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Hannah Labs methodology (v3) — collaborative development workflow with session lifecycle (start/stop), red-team/blue-team scope refinement, a batch/wave shipping pipeline (ship), and pipeline-shaped progression from drafts through requirements to implementation and deploy. Third iteration after OpenClaw and lean.",
   "author": {
     "name": "Dan Hannah"

@@ -61,6 +61,10 @@ Plus, per-initiative:
 
 **Red-team before implementing. Blue-team before committing to scope.** Pressure-test the plan against gaps. Then explicitly cut scope before engineering time is committed. Cheaper to debate the contract than rewrite code.
 
+**The author is not the red-teamer.** A doc's author shares the blind spots that produced its gaps — self-review yields confident wrongness. Red-team with *fresh* agents that verify the doc's factual claims against ground truth (repo, live infra, deployed state), not against the doc's own prose. For initiative-scale docs, fan out diverse lenses, adversarially verify each finding (default-refute unless evidence confirms), then synthesize the survivors. (`/hl:red-team` Phase 2.)
+
+**Build the feedback loop, not just the feature.** Every piece of work an agent does needs a deterministic way to verify it's correct — and if that mechanism doesn't exist, *building it is part of the work*, not a separate nicety. Tag each acceptance criterion with its check and owner: 🤖 **AI-mechanized** (the agent closes the loop itself before asking for review) or 🧑 **human-judgment** (smoke test, qualitative call). The mechanized loop closes first; the human smoke-test is the backstop, not the primary. A requirement with no checking mechanism is a red-team finding.
+
 **Amendments are visible.** Requirements doc has an `Amendments` table. When scope changes mid-sprint (and it will), log it there — not silently. Scope creep that's documented is feature; scope creep that's silent is bug.
 
 **Commit messages capture WHY.** A commit message that says what changed is useless — the diff shows that. Write why, what was considered and rejected, and any non-obvious reasoning.
@@ -91,6 +95,7 @@ The requirements doc is the durable artifact. Epic docs evolve with implementati
 - Tests must pass before claiming done
 - Integration proof before reporting success — type checking and unit tests verify code correctness, not feature correctness
 - Don't merge what you haven't verified end-to-end
+- Every "done" claim names its check and owner (🤖 mechanized / 🧑 human). If no deterministic check exists, building one is in scope — *build the feedback loop, not just the feature*
 - For initiative-scale work, validate against the requirements doc — "have we satisfied every must-have?"
 
 ## Process iteration
@@ -105,3 +110,8 @@ This document is itself a living experiment. v3 will become v4 when the methodol
 - **Requirements docs as the scope contract** — initiative-scale work gets a per-initiative requirements doc; epics reconcile to it
 - **`/hl:stop` surfaces red-team gaps** explicitly — gaps that needed deferral don't get lost
 - **Amendments are first-class** — scope changes are logged, not silent
+
+## Added in v3.1 (2026-06-07)
+
+- **Fresh-agent red-team** — `/hl:red-team` Phase 2 now runs fresh agents (a fan-out `Workflow` for initiative docs) that ground findings against the real repo/infra and adversarially verify them, rather than the author reviewing their own doc. Earned live: a fresh agent caught an author's confidently-wrong "nothing deployed" finding by checking actual state.
+- **Build the feedback loop, not just the feature** — verification mechanisms are a required deliverable, tagged 🤖/🧑 per acceptance criterion; a missing mechanism is itself in-scope work and a red-team finding.
