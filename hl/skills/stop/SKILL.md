@@ -6,7 +6,7 @@ argument-hint: "[project]"
 
 # /hl:stop — Session Handoff
 
-The human is ending this session. Follow all four phases — don't skip the decisions triage or red-team gap surfacing.
+The human is ending this session. Follow all five phases — don't skip the decisions triage or red-team gap surfacing. (Phase 4, Dev Memory, is autri-only and self-skips elsewhere.)
 
 ## Step 0: Determine session scope
 
@@ -68,11 +68,27 @@ Structure it as direct instructions to the next AI session:
 - If there are `decisions.md` updates needed, make them in Phase 1 before writing `next.md`
 - If this is project-scoped, remind the next session to invoke `/hl:start $ARGUMENTS` (not bare `/hl:start`) to pick up project context
 
-## Phase 4: Confirm
+## Phase 4: Publish this session to Dev Memory (autri environments only)
+
+The **write-side** of the dev-memory loop: this session becomes a retrievable episode so future sessions can recall its decisions (see the methodology principle *Consult Dev Memory* and the project's `autri-api` skill). It is an **autri-specific augmentation** — run it ONLY when the loop is configured, and skip silently otherwise (e.g. a work machine with no autri access; never let this block `/hl:stop`).
+
+Do this AFTER `next.md` is written (Phase 3), so the episode captures the full session including the handoff. Guard on the dev-memory setup, then publish:
+
+```bash
+DEVMEM="${AUTRI_DEVMEMORY_DIR:-$HOME/Documents/Code/autri-platform/autri/dev-memory}"
+if [ -f "$DEVMEM/.env" ]; then
+  ( cd "$DEVMEM" && npx tsx publish-session.ts )   # add --transcript <this session's .jsonl> if you can resolve it
+fi
+```
+
+`publish-session.ts` generates a hybrid/opus episode from the session transcript and **replace-uploads** it to the Dev Memory KB, deduped by session id — re-running `/hl:stop` (or a continued session) OVERWRITES the prior episode rather than duplicating. If `$DEVMEM/.env` is absent, SKIP this phase entirely; it is not part of the core methodology. Note the result (episode name + doc id, or "skipped — no Dev Memory") for Phase 5.
+
+## Phase 5: Confirm
 
 Tell the human:
 - What you wrote in next.md (1-2 sentence summary) and where (project vs workspace scope)
 - Any decisions.md or Foundry updates made in Phase 1
 - Deferred red-team gaps that will surface next session (Phase 2)
+- Whether the session was published to Dev Memory (Phase 4) — episode name + doc id, or that it was skipped
 - Loose ends they should be aware of
 - Remind them of the `/hl:start $ARGUMENTS` command if project-scoped

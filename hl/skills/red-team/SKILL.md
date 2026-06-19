@@ -39,6 +39,7 @@ In parallel:
 - Load any sibling docs that the targets reference (design.md, decisions.md, infra plans, etc.)
 - Read project `CLAUDE.md` if present
 - Read project `decisions.md` if present
+- **If the dev-memory loop is configured** (autri environments — `$AUTRI_DEVMEMORY_DIR` or the default `dev-memory/.env` exists), recall prior rationale on the doc's topic: `autri search <devMemoryKb> "<topic>"`. A past session may have already decided a gap you're about to surface — build on its reasoning instead of re-litigating it (see the methodology principle *Consult Dev Memory*). Skip silently if not configured.
 
 Goal: have full context for the red-team pass in one round of tool calls.
 

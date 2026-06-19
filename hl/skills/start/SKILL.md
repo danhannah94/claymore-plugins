@@ -66,12 +66,28 @@ If Foundry MCP tools (`mcp__foundry__*`) are available:
 
 If `next.md` includes a "Deferred red-team gaps" section (written by a prior `/hl:stop`), summarize the most load-bearing ones in your orientation. These are items that came up in a previous red-team but weren't resolved — they're often the right thing to start with.
 
-## Step 7: Give a brief orientation
+## Step 7: Recall from Dev Memory (autri environments only)
+
+The **read-side** of the dev-memory loop — pull prior rationale BEFORE orienting so a cold session starts with its own history, not a blank slate (see the methodology principle *Consult Dev Memory* and the project's `autri-api` skill). Autri-specific; skip silently where it isn't configured. Guard on the setup:
+
+```bash
+DEVMEM="${AUTRI_DEVMEMORY_DIR:-$HOME/Documents/Code/autri-platform/autri/dev-memory}"
+[ -f "$DEVMEM/.env" ] && echo "dev-memory available"
+```
+
+If available, read `$DEVMEM/.env` for AUTRI_API_URL / AUTRI_API_KEY / AUTRI_DEVMEMORY_KB, then recall two ways (run `autri` from the autri repo root with those env vars set):
+- **Recent** — `pnpm autri filter <AUTRI_DEVMEMORY_KB> --rank recency --recency-field date --k 8`: the last sessions' decisions ("where were we").
+- **On-topic** — if `next.md` names a clear focus, `pnpm autri search <AUTRI_DEVMEMORY_KB> "<that focus>"`: prior rationale on it.
+
+Fold the 2-3 most relevant prior decisions into the orientation (Step 8). If `$DEVMEM/.env` is absent, SKIP — no recall, no error.
+
+## Step 8: Give a brief orientation
 
 3-5 lines max:
 - What you understand the current state to be (include project scope if applicable)
 - What you plan to start on (or propose starting on)
 - Any deferred red-team gaps worth surfacing first
+- The most relevant prior decisions recalled from Dev Memory (Step 7), if any
 - Any questions or gaps before you begin
 
 Do not start work until the orientation is delivered and the user confirms.

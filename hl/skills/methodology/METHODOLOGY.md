@@ -55,6 +55,8 @@ Plus, per-initiative:
 
 **Foundry captures WHY. Code is WHAT.** Design docs and annotations record rationale, trade-offs, rejected alternatives. Don't duplicate code in prose.
 
+**Consult Dev Memory (when configured).** In autri-equipped environments a **Dev Memory KB** holds a distilled episode of every prior session — its decisions, the *why* behind them, and the steering that shaped them. Before a non-trivial or easily-relitigated decision, query it (`autri search "<topic>"`, or `autri filter --rank recency` for what's most recent — see the project's `autri-api` skill) and build on what a past session already settled instead of re-deriving it. `/hl:start` recalls recent + on-topic memory at orientation; `/hl:stop` records the session back into it. The memory compounds only if you READ it, not just write it. Where no Dev Memory is configured (e.g. a work machine without autri) this principle is simply inert — the methodology is unchanged.
+
 **Scope before building, design while building.** Agree on the scope contract (requirements doc) before starting. Make design decisions during implementation as real constraints surface.
 
 **Refine when uncertain.** Surface low-confidence or high-stakes decisions to the human. Don't guess. This valuable friction prevents confidently building the wrong thing.
