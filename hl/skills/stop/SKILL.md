@@ -72,16 +72,32 @@ Structure it as direct instructions to the next AI session:
 
 The **write-side** of the dev-memory loop: this session becomes a retrievable episode so future sessions can recall its decisions (see the methodology principle *Consult Dev Memory* and the project's `autri-api` skill). It is an **autri-specific augmentation** — run it ONLY when the loop is configured, and skip silently otherwise (e.g. a work machine with no autri access; never let this block `/hl:stop`).
 
-Do this AFTER `next.md` is written (Phase 3), so the episode captures the full session including the handoff. Guard on the dev-memory setup, then publish:
+Do this AFTER `next.md` is written (Phase 3), so the episode captures the full session including the handoff.
+
+The publish path splits **generate** (deterministic — a script) from **publish** (you, calling the MCP `publish_document` tool). Generation always runs as a script; publishing is primary-via-MCP with an automatic CLI fallback so the loop never silently fails. This is a REQUIRED, verified step when the loop is configured — not a judgment call (it has been skipped before when left optional; do not skip it).
+
+**Step 1 — Guard + generate (always a script).** If `$DEVMEM/.env` is absent, SKIP this whole phase silently (e.g. a non-autri machine). Otherwise generate the episode and capture the handoff JSON:
 
 ```bash
 DEVMEM="${AUTRI_DEVMEMORY_DIR:-$HOME/Documents/Code/autri-platform/autri/dev-memory}"
 if [ -f "$DEVMEM/.env" ]; then
-  ( cd "$DEVMEM" && npx tsx publish-session.ts )   # add --transcript <this session's .jsonl> if you can resolve it
+  ( cd "$DEVMEM" && npx tsx publish-session.ts --generate-only )   # add --transcript <this session's .jsonl> if you can resolve it
 fi
 ```
 
-`publish-session.ts` generates a hybrid/opus episode from the session transcript and **replace-uploads** it to the Dev Memory KB, deduped by session id — re-running `/hl:stop` (or a continued session) OVERWRITES the prior episode rather than duplicating. If `$DEVMEM/.env` is absent, SKIP this phase entirely; it is not part of the core methodology. Note the result (episode name + doc id, or "skipped — no Dev Memory") for Phase 5.
+`--generate-only` writes a hybrid/opus episode and prints JSON: `{ path, kbId, sessionId, title, ... }`. It does NOT upload.
+
+**Step 2 — Publish via the MCP tool (primary).** Read the episode markdown at `path`, then call the Autri `publish_document` MCP tool (exposed by the connected Autri write connector — its tool name is `mcp__<connectorId>__publish_document`) with `{ knowledgeBaseId: kbId, sessionId, title, content: <the file's contents> }`. It is idempotent on `sessionId` — re-running `/hl:stop` (or a continued session) REPLACES the prior episode rather than duplicating (`superseded_count` reports how many it replaced).
+
+**Step 3 — Verify-back (required).** Call `get_document` on the returned `document_id` and confirm it exists (the page/doc came back). Do not report success without this check.
+
+**Step 4 — Fallback (only if MCP is unreachable).** If no Autri `publish_document` tool is available in this host (no write connector connected) OR the call errors, fall back to the headless CLI path, which uploads via the write-scoped API key in `$DEVMEM/.env`:
+
+```bash
+( cd "$DEVMEM" && npx tsx publish-session.ts )   # add --transcript if resolvable; replace-uploads via the API key
+```
+
+Note the result for Phase 5 — episode name + doc id and which path published it (MCP vs CLI fallback), or "skipped — no Dev Memory" if Step 1 was guarded out.
 
 ## Phase 5: Confirm
 

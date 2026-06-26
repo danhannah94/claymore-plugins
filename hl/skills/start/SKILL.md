@@ -48,18 +48,18 @@ This file was written by the AI at the end of the previous session. It contains:
 
 **Dev memory is one of the first places you look — here, and throughout the session.** It is the read-side of the dev-memory loop: every prior session's decisions and rationale, searchable. Pull from it BEFORE forming any view of the session, so a cold start leans on its own accumulated history rather than a blank slate (see the methodology principle *Consult Dev Memory* and the project's `autri-api` skill). **This is a primary information source, not a final embellishment — do not skip it because the orientation already feels "done."** It runs here, right after `next.md` (which supplies the focus string), and ahead of the local ledgers so those corroborate it rather than substitute for it.
 
-Autri-specific; skip silently where it isn't configured. Guard on the setup:
+Autri-specific; skip silently where it isn't configured — i.e. when neither an Autri connector is attached NOR `$DEVMEM/.env` exists. The CLI-availability check:
 
 ```bash
 DEVMEM="${AUTRI_DEVMEMORY_DIR:-$HOME/Documents/Code/autri-platform/autri/dev-memory}"
-[ -f "$DEVMEM/.env" ] && echo "dev-memory available"
+[ -f "$DEVMEM/.env" ] && echo "dev-memory CLI available"
 ```
 
-If available, read `$DEVMEM/.env` for AUTRI_API_URL / AUTRI_API_KEY / AUTRI_DEVMEMORY_KB, then recall two ways (run `autri` from the autri repo root with those env vars set):
-- **Recent** — `pnpm autri filter <AUTRI_DEVMEMORY_KB> --rank recency --recency-field date --k 8`: the last sessions' decisions ("where were we").
-- **On-topic** — if `next.md` names a clear focus, `pnpm autri filter <AUTRI_DEVMEMORY_KB> "<that focus>" --rank relevance_recency`: prior rationale on it, with the freshest *relevant* decision floated to the top (the "revised decision wins" case).
+**Prefer the MCP tools** — you're an MCP client, and when the Autri connector is attached it exposes `filter_then_rank` / `vector_search` / `get_document` over the Dev Memory KB directly (find its id via `list_knowledge_bases`, or `$DEVMEM/.env`'s `AUTRI_DEVMEMORY_KB`). Fall back to the `pnpm recall` CLI verb (run from the autri repo root — it reads `$DEVMEM/.env` itself) only when no connector is attached. Recall two ways:
+- **Recent** ("where were we") — MCP: `filter_then_rank(knowledgeBaseId=<Dev Memory>, query="recent session decisions", rankBy="recency", recencyField="date", k=8)`. CLI: `pnpm recall --recent -k 8`.
+- **On-topic** — if `next.md` names a clear focus, MCP: `filter_then_rank(knowledgeBaseId=<Dev Memory>, query="<that focus>", rankBy="relevance_recency", recencyField="date")` — the freshest *relevant* decision floats up. CLI: `pnpm recall "<that focus>"`.
 
-Fold the 2-3 most relevant prior decisions into the orientation (Step 8). If `$DEVMEM/.env` is absent, SKIP — no recall, no error.
+Fold the 2-3 most relevant prior decisions into the orientation (Step 8); read a hit's full episode via MCP `get_document(documentId)` (or CLI `pnpm recall --expand <label> --doc <docId>`). And throughout the session, reach for the MCP read tools liberally to fill gaps — recall is not a start-only ritual. If neither an Autri connector nor `$DEVMEM/.env` is available, SKIP — no recall, no error.
 
 ## Step 4: Read `CLAUDE.md` if project-scoped
 
