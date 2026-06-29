@@ -74,7 +74,7 @@ The **write-side** of the dev-memory loop: this session becomes a retrievable ep
 
 Do this AFTER `next.md` is written (Phase 3), so the episode captures the full session including the handoff.
 
-The publish path splits **generate** (deterministic — a script) from **publish** (you, calling the MCP `publish_document` tool). Generation always runs as a script; publishing is primary-via-MCP with an automatic CLI fallback so the loop never silently fails. This is a REQUIRED, verified step when the loop is configured — not a judgment call (it has been skipped before when left optional; do not skip it).
+The publish path splits **generate** (deterministic — a script) from **publish** (you, calling the MCP `publish_document` tool). Generation always runs as a script; publishing is the **MCP `publish_document` tool, verified-back**. This is a REQUIRED, verified step when the loop is configured — not a judgment call (it has been skipped before when left optional; do not skip it). **There is NO automatic CLI fallback** (deprecated 2026-06-29: MCP publish is proven in prod, and an auto-fallback re-introduces a dedup-key footgun — the CLI matches the replace key on the short id, MCP on the full `sessionId`, so a CLI run firing after a partial MCP write *duplicates* the episode instead of replacing it). If MCP publish fails, **fail loudly with a manual-recovery command** — never silently fall back or drop the episode.
 
 **Step 1 — Guard + generate (always a script).** If `$DEVMEM/.env` is absent, SKIP this whole phase silently (e.g. a non-autri machine). Otherwise generate the episode and capture the handoff JSON:
 
@@ -91,13 +91,15 @@ fi
 
 **Step 3 — Verify-back (required).** Call `get_document` on the returned `document_id` and confirm it exists (the page/doc came back). Do not report success without this check.
 
-**Step 4 — Fallback (only if MCP is unreachable).** If no Autri `publish_document` tool is available in this host (no write connector connected) OR the call errors, fall back to the headless CLI path, which uploads via the write-scoped API key in `$DEVMEM/.env`:
+**Step 4 — On failure: fail loud + manual recovery (NO automatic fallback).** If the MCP `publish_document` tool is unavailable in this host, or the call / verify-back fails, do NOT silently drop the episode and do NOT auto-run the CLI. STOP and tell the human clearly: the episode was generated at `path` but is NOT yet published, and give them the one-line manual-recovery command to run themselves:
 
 ```bash
-( cd "$DEVMEM" && npx tsx publish-session.ts )   # add --transcript if resolvable; replace-uploads via the API key
+( cd "$DEVMEM" && npx tsx publish-session.ts )   # MANUAL recovery only — replace-uploads via the write-scoped API key in $DEVMEM/.env
 ```
 
-Note the result for Phase 5 — episode name + doc id and which path published it (MCP vs CLI fallback), or "skipped — no Dev Memory" if Step 1 was guarded out.
+This CLI / API-key path is retained as (a) this manual recovery and (b) the headless-automation surface (webhooks / cron, where no MCP host exists) — it is **no longer an automatic step** in `/hl:stop`.
+
+Note the result for Phase 5 — episode name + doc id (published via MCP), or "NOT published — manual recovery needed: `<the command>`" if Step 4 was hit, or "skipped — no Dev Memory" if Step 1 was guarded out.
 
 ## Phase 5: Confirm
 
