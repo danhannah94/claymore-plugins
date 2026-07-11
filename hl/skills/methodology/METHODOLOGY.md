@@ -113,6 +113,10 @@ This document is itself a living experiment. v3 will become v4 when the methodol
 - **`/hl:stop` surfaces red-team gaps** explicitly — gaps that needed deferral don't get lost
 - **Amendments are first-class** — scope changes are logged, not silent
 
+## Added in v3.2 (2026-07-11)
+
+- **The spec pipeline (`/hl:spec`)** — for initiative-scale epics, a Kiro-style artifact chain replaces the single-doc draft stage: **ground → requirements → red/blue-team the requirements (LOCK) → design (mermaid, per module boundary) → red-team the design → tasks doc** in `/hl:ship`'s input format with AC-to-requirement traceability and a must-coverage exit gate. The divergent/convergent insight survives the inversion: red-team runs against the *requirements artifact* before design exists, so by the time tasks are written everything upstream survived two hardening rounds. Per-STAGE docs, not per-feature (sections give red-team granularity without fragmenting gates); substrate modules that outlive the epic get standalone design docs. No blue-team at the design stage — scope pressure discovered in design becomes a visible requirements amendment, never a silent cut. Adopted from AWS Kiro's spec-mode convention (2026-07-10 assessment: "steal the spec-file format, keep the pipeline"); first run = quoteai-next, session 51. The classic short pipeline (draft → red-team → ship) remains correct for small work — match process to stakes.
+
 ## Added in v3.1 (2026-06-07)
 
 - **Fresh-agent red-team** — `/hl:red-team` Phase 2 now runs fresh agents (a fan-out `Workflow` for initiative docs) that ground findings against the real repo/infra and adversarially verify them, rather than the author reviewing their own doc. Earned live: a fresh agent caught an author's confidently-wrong "nothing deployed" finding by checking actual state.
