@@ -105,7 +105,7 @@ Then hand off: `/hl:ship <tasks-doc-ref>`.
 
 ## Rules
 
-- **Artifacts live in Foundry** (Design Docs KB), not in-repo — the red-team/annotation/review tooling targets Foundry docs. Name convention: `<epic>-requirements`, `<epic>-design[-<module>]`, `<epic>-tasks`, same folderPath.
+- **Artifacts live in Foundry** (Design Docs KB), not in-repo — the red-team/annotation/review tooling targets Foundry docs. **Folder convention: one folder per epic — `folderPath: projects/<project>/epics/<epic>` — holding ALL of that epic's spec docs.** Doc names keep the epic prefix (retrieval hits and citations show the document name, not its folder): `<epic>-requirements`, `<epic>-design[-<module>]`, `<epic>-tasks`. To relocate a pre-existing doc, create it fresh at the new folderPath and rewrite the old doc's root H1 to a tombstone pointing at the new document id (no move primitive exists yet — see autri's doc-move issue); never relocate a doc that a live ship batch or open annotations reference.
 - **Author ≠ red-teamer, every time.** Both red-team stages use fresh agents grounded in the repos.
 - **One scope ledger.** Priorities live in requirements; every post-lock change is an Amendments row.
 - **Traceability is bidirectional at the end:** requirement → story → AC → check owner.
@@ -113,5 +113,7 @@ Then hand off: `/hl:ship <tasks-doc-ref>`.
 - **Log the run** in decisions.md (what the gates caught, what they cost) — the pipeline is itself an experiment; evaluate at `/hl:stop`.
 
 ## Iteration log
+
+**v1.1 — 2026-07-11 (session 52).** Per-epic folder convention adopted (Dan): `projects/<project>/epics/<epic>/` holds requirements + design(s) + tasks together; the three session-51 sibling requirements docs (doc-composition, email-ingestion, billing) migrated via create-at-new-path + tombstone; quoteai-next family deliberately left in place until its ship batch lands.
 
 **v1 — 2026-07-11 (session 51).** Codified from the live quoteai-next run: per-stage docs beat per-feature docs (sections give red-team granularity; one gate session instead of three); the requirements red-team lens set (grounding/completeness/testability/cross-epic) and the design lens set (security/cost/plan-consistency/operability/simpler-alternative/requirements-fidelity) were chosen here; Stage-8 no-blue-team-at-design rule adopted (scope pressure → visible requirements amendment). First full validation pending: quoteai-next through Stage 9 + ship.
