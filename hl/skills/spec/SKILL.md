@@ -39,7 +39,8 @@ One requirements doc per epic (per-STAGE docs, not per-feature — sections give
 
 - **Header:** epic name, date, "v1 draft, pre-red-team", pointer to the umbrella/parent doc if any.
 - **Global constraints** (C-series): apply to every requirement. Include the standing ones that fit: critical-path precedence, vended-account compatibility, compound-don't-duplicate, check-owner tagging, flagship-inert.
-- **Numbered requirements** grouped by track/module: each has an id (`N-1`, `R-2`…), a priority (**must / should / could** — blue-team cuts against these), a user story (As/I want/So that), and **EARS acceptance criteria** (WHEN/IF … THE SYSTEM SHALL …) each tagged 🤖 (AI-mechanized check) or 🧑 (human judgment).
+- **Numbered requirements** grouped by track/module: each has an id (`N-1`, `R-2`…), a priority (**must / should / could** — blue-team cuts against these), a user story, and **EARS acceptance criteria** (WHEN/IF … THE SYSTEM SHALL …) each tagged 🤖 (AI-mechanized check) or 🧑 (human judgment).
+- **The user story (As a X, I want Y, so that Z) is NON-OPTIONAL on every requirement** — musts, shoulds, AND coulds. It is the human-comprehension layer of the doc and it is load-bearing (v1.2, Dan: "that actually helps me a lot to understand the requirements"). **Every subsequent revision of the doc MUST preserve the stories** — compression rewrites, red-team applies, and fold-backs are exactly where they get dropped (proven failure mode, s52: three docs lost stories across apply passes). A requirement without its story is a defect, not a style choice.
 - **Out of scope (v1)** — explicit, named.
 - **External clocks** — anything with lead time measured in days (approvals, filings, third parties). File these at epic start.
 - **Amendments table** — empty at draft; every post-lock change lands here with date + why. Scope creep that's documented is feature; silent is bug.
@@ -56,7 +57,7 @@ Invoke the `red-team` skill against the requirements doc. **The author is not th
 
 - **Factual grounding** — verify every claim about existing code/infra against the repos.
 - **Completeness** — missing must-haves: identity/tenancy, lifecycle, compliance, failure modes, migration/rollout, bootstrap problems ("who assigns the first admin?").
-- **Testability/EARS rigor** — untestable, unachievable ("exactly once"), contradictory, or scope-hiding criteria; wrong 🤖/🧑 tags; priority/dependency mismatches.
+- **Testability/EARS rigor** — untestable, unachievable ("exactly once"), contradictory, or scope-hiding criteria; wrong 🤖/🧑 tags; priority/dependency mismatches; **any requirement missing its user story is a finding**.
 - **Cross-epic/enterprise** — interactions with other epics, the vend/multi-account future, the north-star roadmap.
 
 Findings are adversarially verified (default-refute), then triaged with the human (batched AskUserQuestion rounds, recommendation-first) and applied.

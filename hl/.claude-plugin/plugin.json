@@ -1,6 +1,6 @@
 {
   "name": "hl",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "description": "Hannah Labs methodology (v3.2) — collaborative development workflow with session lifecycle (start/stop), red-team/blue-team scope refinement, a Kiro-style spec pipeline (spec: grounded requirements → red-teamed lock → designs → red-teamed fold-back → ship-ready tasks), a batch/wave shipping pipeline (ship), an optional autri Dev Memory loop (sessions recall and record their own decisions), and pipeline-shaped progression from drafts through requirements to implementation and deploy. Third iteration after OpenClaw and lean.",
   "author": {
     "name": "Dan Hannah"
