@@ -97,7 +97,8 @@ Scope was cut at Stage 4; design must not add or shed scope silently. If design 
 
 The final artifact, in **`/hl:ship` Form-A format** so ship consumes it directly:
 
-- `## Story Summary` table: `Story | Title | Scope | Deps | Visual | Phase`.
+- `## Story Summary` table: `Story | Title | Scope | Deps | Visual | Phase | Model`.
+- **Per-story model tiering (the Model column):** assign each story a builder model from its complexity — **Sonnet** for easy/medium stories (mechanical ports, config surfaces, well-precedented CRUD/UI following an established pattern), **Opus** for hard ones (novel engine/concurrency/CAS work, cross-repo seams, security-sensitive paths, anything whose design decision says "new capability"). The complexity call is made HERE, at authoring time, where the spec context is richest — not guessed at kickoff. `/hl:ship` honors the column; its kickoff model knob becomes the default for blank cells and a human override lever (e.g. "all-Opus this batch").
 - `## Stories` — one section per story: scope, **acceptance criteria each citing the requirement id(s) it satisfies** (`AC: … [R-2]`), verification notes for the QA agent (how to reach/trigger the change), branch-name suggestion.
 - **Dependency graph:** the Deps column drives ship's topo-sort. Encode code deps AND same-file-collision serialization (two stories touching the same shell/header get a dep even without a code dependency). Optional mermaid `graph TD` for human legibility.
 - **Coverage check (mechanized, the stage gate):** cross-check that every **must** requirement id is cited by ≥1 story's AC, and every story AC cites ≥1 requirement. Run it as a checklist or a small agent pass; a must with no story = the pipeline caught scope loss — surface it, don't ship around it.

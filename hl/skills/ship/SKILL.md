@@ -16,14 +16,14 @@ Three knobs are set per batch — confirm them up front (sensible defaults in **
 
 - **QA backend** — how visual stories get verified. See [Phase 1d](#1d--conditional-qa). Either **(a) test-env + Crucible** (a per-branch Docker harness exists) or **(b) headless-preview + dev-auth** (no test-env; app behind auth — drive Claude Preview against a worktree dev server). Detect from the project; if neither fits, ask.
 - **Merge authority** — **human-merge** (orchestrator presents each wave, human clicks merge) OR **delegated** (human grants the orchestrator merge authority for the batch: merge when QA is clean, post per-wave batch summaries for transparency, don't block on a click). Delegation is great for momentum on a trusted batch; default to human-merge unless the human says otherwise.
-- **Agent model** — **inherit/Sonnet** to economize, or **Opus** for max quality on every feature/QA agent. The human picks based on stakes.
+- **Agent model** — **per-story `Model` column when the tasks doc has one** (Sonnet for easy/medium stories, Opus for hard ones — assigned at spec-authoring time where complexity is best judged); the kickoff knob then acts as the default for blank cells and as a human override ("all-Opus this batch"). Without a Model column: **inherit/Sonnet** to economize, or **Opus** for max quality on every feature/QA agent.
 
 ## Inputs
 
 Two forms accepted as `$ARGUMENTS`:
 
 ### Form A — design-doc path with Story Summary table
-Path to an epic doc containing a `## Story Summary` section with columns: `Story | Title | Scope | Deps | Visual | Phase`. `/hl:ship` parses the table, cross-references each row against the doc's `## Stories` sections for acceptance criteria, and builds the batch.
+Path to an epic doc containing a `## Story Summary` section with columns: `Story | Title | Scope | Deps | Visual | Phase | Model` (Model optional — per-story builder model, Sonnet/Opus; blank cells fall back to the kickoff model knob). `/hl:ship` parses the table, cross-references each row against the doc's `## Stories` sections for acceptance criteria, and builds the batch.
 
 ### Form B — inline batch spec (YAML-ish)
 ```
